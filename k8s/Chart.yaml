@@ -1,0 +1,8 @@
+apiVersion: v2
+description: app
+type: application
+name: app
+version: 1.0.0
+mantainers:
+  - name: Alexander Fedoseev
+    email: alexander-fedoseefff@yandex.ru

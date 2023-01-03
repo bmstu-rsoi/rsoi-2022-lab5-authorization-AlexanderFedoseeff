@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata: 
+    name: {{ .Values.postgres.name }}
+    labels: 
+        owner: AlexanderFedoseeff
+spec:
+    selector:
+        app: {{ .Values.postgres.name }}
+    ports:
+      - name: {{ .Values.postgres.name }}-listener
+        protocol: TCP
+        port: 5432
+        targetPort: {{ .Values.postgres.name }}

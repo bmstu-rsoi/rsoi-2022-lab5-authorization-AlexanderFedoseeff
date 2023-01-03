@@ -1,0 +1,36 @@
+gateway:
+  name: gateway
+  repo: alexanderfedoseeff/lab-rsoi-gateway:latest
+  port: 8080
+  replicaCount: 2
+reservation:
+  name: reservation
+  repo: alexanderfedoseeff/lab-rsoi-reservation:latest
+  port: 8070
+  replicaCount: 2
+loyalty:
+  name: loyalty
+  repo: alexanderfedoseeff/lab-rsoi-loyalty:latest
+  port: 8050
+  replicaCount: 2
+payment:
+  name: payment
+  repo: alexanderfedoseeff/lab-rsoi-payment:latest
+  port: 8060
+  replicaCount: 2
+postgres:
+  name: postgres
+  repo: library/postgres:13
+  port: 5432
+  replicaCount: 1
+  default_database:
+    name: postgres
+    user: postgres
+    password: postgres
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 200m
+      memory: 1024Mi

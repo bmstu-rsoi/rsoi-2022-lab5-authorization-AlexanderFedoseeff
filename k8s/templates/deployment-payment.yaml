@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.payment.name }}
+    labels: 
+        app : {{ .Values.payment.name }}
+        owner : AlexanderFedoseeff
+spec:
+    replicas: {{ .Values.payment.replicaCount }}
+    selector:
+        matchLabels:
+            app: {{ .Values.payment.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.payment.name }}
+        spec:
+            containers:
+              - name: {{ .Values.payment.name }}-lab
+                image: {{ .Values.payment.repo }}
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: {{ .Values.payment.port }}
+                    name: {{ .Values.payment.name }}
+                    protocol: TCP

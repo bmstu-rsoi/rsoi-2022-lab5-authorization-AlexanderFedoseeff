@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.reservation.name }}
+    labels: 
+        app : {{ .Values.reservation.name }}
+        owner : AlexanderFedoseeff
+spec:
+    replicas: {{ .Values.reservation.replicaCount }}
+    selector:
+        matchLabels:
+            app: {{ .Values.reservation.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.reservation.name }}
+        spec:
+            containers:
+              - name: {{ .Values.reservation.name }}-lab
+                image: {{ .Values.reservation.repo }}
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: {{ .Values.reservation.port }}
+                    name: {{ .Values.reservation.name }}
+                    protocol: TCP

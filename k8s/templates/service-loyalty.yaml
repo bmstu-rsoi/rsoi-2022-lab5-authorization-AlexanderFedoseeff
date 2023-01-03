@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata: 
+    name: {{ .Values.loyalty.name }}
+    labels: 
+        owner: AlexanderFedoseeff
+spec:
+    selector:
+        app: {{ .Values.loyalty.name }}
+    ports:
+      - name: {{ .Values.loyalty.name }}-listener
+        protocol: TCP
+        port: 8050
+        targetPort: {{ .Values.loyalty.name }}

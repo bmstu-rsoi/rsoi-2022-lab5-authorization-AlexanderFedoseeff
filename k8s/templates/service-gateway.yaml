@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata: 
+    name: {{ .Values.gateway.name }}
+    labels: 
+        owner: AlexanderFedoseeff
+spec:
+    selector:
+        app: {{ .Values.gateway.name }}
+    ports:
+      - name: {{ .Values.gateway.name }}-listener
+        protocol: TCP
+        port: 8080
+        targetPort: {{ .Values.gateway.name }}
+#    type: LoadBalancer

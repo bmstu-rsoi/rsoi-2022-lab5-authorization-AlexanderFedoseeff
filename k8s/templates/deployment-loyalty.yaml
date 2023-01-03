@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.loyalty.name }}
+    labels: 
+        app : {{ .Values.loyalty.name }}
+        owner : AlexanderFedoseeff
+spec:
+    replicas: {{ .Values.loyalty.replicaCount }}
+    selector:
+        matchLabels:
+            app: {{ .Values.loyalty.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.loyalty.name }}
+        spec:
+            containers:
+              - name: {{ .Values.loyalty.name }}-lab
+                image: {{ .Values.loyalty.repo }}
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: {{ .Values.loyalty.port }}
+                    name: {{ .Values.loyalty.name }}
+                    protocol: TCP
