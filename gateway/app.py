@@ -9,12 +9,12 @@ import json
 import uuid
 from curses.ascii import NUL
 
-
 port = os.environ.get('PORT')
 if port is None:
     port = 8080
 
 app = Flask(__name__)
+
 
 @app.route('/api/v1/test', methods=['GET'])
 def get_test():

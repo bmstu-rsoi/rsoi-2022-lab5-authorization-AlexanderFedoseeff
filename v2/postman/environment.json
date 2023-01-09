@@ -4,32 +4,32 @@
   "values": [
     {
       "key": "serviceUrl",
-      "value": "",
+      "value": "51.250.82.141",
       "enabled": true
     },
     {
       "key": "identityProviderUrl",
-      "value": "",
+      "value": "dev-wkeiaqceknsdkl84.us.auth0.com",
       "enabled": true
     },
     {
       "key": "username",
-      "value": "",
+      "value": "u@rsoi.test",
       "enabled": true
     },
     {
       "key": "password",
-      "value": "",
+      "value": "psw",
       "enabled": true
     },
     {
       "key": "clientId",
-      "value": "",
+      "value": "bLuCnTQvmnhZHpbHgUDM3PVLqjn3meVK",
       "enabled": true
     },
     {
       "key": "clientSecret",
-      "value": "",
+      "value": "BaGRJfJiYN2RjpYTVn3guapJoMcaZXK3UNVftXjkUZxWfxt7MUOn-1mZQj1UcQq7",
       "enabled": true
     }
   ],

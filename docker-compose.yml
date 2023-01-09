@@ -57,5 +57,13 @@ services:
     depends_on:
       - postgres
 
+  auth:
+    image: alexanderfedoseeff/lab-rsoi-auth
+    restart: on-failure
+    build: ./auth/
+    container_name: auth
+    ports:
+      - "3000:3000"
+
 volumes:
   db-data:
