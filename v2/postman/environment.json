@@ -9,7 +9,7 @@
     },
     {
       "key": "identityProviderUrl",
-      "value": "dev-wkeiaqceknsdkl84.us.auth0.com",
+      "value": "https://dev-wkeiaqceknsdkl84.us.auth0.com",
       "enabled": true
     },
     {
