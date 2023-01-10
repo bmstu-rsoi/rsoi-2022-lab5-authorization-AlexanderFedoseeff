@@ -10,5 +10,5 @@ spec:
     ports:
       - name: {{ .Values.payment.name }}-listener
         protocol: TCP
-        port: 8060
+        port: {{ .Values.payment.port }}
         targetPort: {{ .Values.payment.name }}

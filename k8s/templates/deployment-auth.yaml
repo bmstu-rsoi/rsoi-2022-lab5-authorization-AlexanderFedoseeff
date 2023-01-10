@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.auth.name }}
+    labels: 
+        app : {{ .Values.auth.name }}
+        owner : AlexanderFedoseeff
+spec:
+    replicas: {{ .Values.auth.replicaCount }}
+    selector:
+        matchLabels:
+            app: {{ .Values.auth.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.auth.name }}
+        spec:
+            containers:
+              - name: {{ .Values.auth.name }}-lab
+                image: {{ .Values.auth.repo }}
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: {{ .Values.auth.port }}
+                    name: {{ .Values.auth.name }}
+                    protocol: TCP

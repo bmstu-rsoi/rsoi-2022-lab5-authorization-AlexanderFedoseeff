@@ -1,3 +1,8 @@
+auth:
+  name: auth
+  repo: alexanderfedoseeff/lab-rsoi-auth:latest
+  port: 8040
+  replicaCount: 2
 gateway:
   name: gateway
   repo: alexanderfedoseeff/lab-rsoi-gateway:latest

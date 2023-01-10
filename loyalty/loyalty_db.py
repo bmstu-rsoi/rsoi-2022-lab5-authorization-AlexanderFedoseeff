@@ -66,7 +66,7 @@ class LoyaltyDB:
                     VALUES 
                     (
                         1,
-                        'Test Max',
+                        'user',
                         25,
                         'GOLD',
                         10

@@ -26,6 +26,7 @@ services:
       - reservation
       - payment
       - loyalty
+      - auth
     
   reservation:
     image: alexanderfedoseeff/lab-rsoi-reservation
@@ -63,7 +64,7 @@ services:
     build: ./auth/
     container_name: auth
     ports:
-      - "3000:3000"
+      - "8040:8040"
 
 volumes:
   db-data:

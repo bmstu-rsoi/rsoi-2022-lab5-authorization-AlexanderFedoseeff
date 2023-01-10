@@ -27,6 +27,14 @@ def not_found(error):
 #получить список отелей
 @app.route('/api/v1/hotels', methods=['GET'])
 def get_hotels():
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+
     page = request.args.get('page', default=0, type= int)
     size = request.args.get('size', default=0, type= int)
     response = requests.get('http://reservation:8070/api/v1/hotels', params = {'page': page, 'size': size})
@@ -35,15 +43,30 @@ def get_hotels():
 #получить информацию о статусе в системе лояльности
 @app.route('/api/v1/loyalty', methods=['GET'])
 def get_loyalty():
-    if 'X-User-Name' not in request.headers:
-        abort(400)
-    username = request.headers.get('X-User-Name')
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+    username = response_auth.json()['user']
+
     response = requests.get('http://loyalty:8050/api/v1/loyalty', params = {'username': username})
     return make_response(response.json(), 200)
 
 #забронировать отель
 @app.route('/api/v1/reservations', methods=['POST'])
 def create_person():
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+    username = response_auth.json()['user']
+
     discount_computed = False
     find_hotel_id = False
     payment_complited = False
@@ -58,9 +81,7 @@ def create_person():
         abort(400)
     if 'hotelUid' not in request.json or 'startDate' not in request.json or 'endDate' not in request.json:
         abort(400)
-    if 'X-User-Name' not in request.headers:
-        abort(400)
-    username = request.headers.get('X-User-Name')
+
     #получаем список отелей
     response_hotels = requests.get('http://reservation:8070/api/v1/hotels')
     result_hotels = response_hotels.json()
@@ -138,9 +159,15 @@ def create_person():
 #получить информацию по конкретному бронированию
 @app.route('/api/v1/reservations/<reservationUid>', methods=['GET'])
 def get_reservation(reservationUid):
-    if 'X-User-Name' not in request.headers:
-        abort(400)
-    username = request.headers.get('X-User-Name')
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+    username = response_auth.json()['user']
+
     response_reservations = requests.get('http://reservation:8070/api/v1/get_user_reservations', params = {'username': username})
     response_reservations = response_reservations.json()
     result = []
@@ -175,9 +202,15 @@ def get_reservation(reservationUid):
 #удаление бронирования
 @app.route('/api/v1/reservations/<reservationUid>', methods=['DELETE'])
 def cancel_reservation(reservationUid):
-    if 'X-User-Name' not in request.headers:
-        abort(400)
-    username = request.headers.get('X-User-Name')
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+    username = response_auth.json()['user']
+
     response_reservation = requests.post('http://reservation:8070/api/v1/cancel_reservation', data = {'reservationUid': reservationUid})
     if response_reservation.status_code == 201:
         paymentUid = response_reservation.json()['paymentUid']
@@ -198,9 +231,15 @@ def cancel_reservation(reservationUid):
 #инормация по всем бронированиям пользователя
 @app.route('/api/v1/reservations', methods=['GET'])
 def get_reservations():
-    if 'X-User-Name' not in request.headers:
-        abort(400)
-    username = request.headers.get('X-User-Name')
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+    username = response_auth.json()['user']
+
     response_reservation = requests.get('http://reservation:8070/api/v1/get_user_reservations', params = {'username': username})
     result = []
     for r in response_reservation.json():
@@ -225,9 +264,15 @@ def get_reservations():
 #информация о всех бронированиях и статусе в сисеме лояльности пользователя
 @app.route('/api/v1/me', methods=['GET'])
 def me():
-    if 'X-User-Name' not in request.headers:
-        abort(400)
-    username = username = request.headers.get('X-User-Name')
+    authorization = request.headers.get('Authorization')
+    if not authorization:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'No Authorization header'}), 401)
+    authorization = authorization[7:]
+    response_auth = requests.get('http://auth:8040/api/v1/check_token', params = {'token': authorization})
+    if response_auth.status_code != 200:
+        return make_response(jsonify({'error': 'access_denied', 'error_description': 'Not valid token', 'We have gotten': authorization}), 401)
+    username = response_auth.json()['user']
+
     response_reservations = requests.get('http://reservation:8070/api/v1/get_user_reservations', params = {'username': username})
     result = []
     for r in response_reservations.json():
@@ -247,6 +292,35 @@ def me():
                 'endDate': r['endDate']})
     response_loyalty = requests.get('http://loyalty:8050/api/v1/loyalty', params = {'username': username})
     return make_response(jsonify({'reservations': result, 'loyalty': response_loyalty.json()}), 200)
+
+#получить токен
+@app.route('/oauth/token', methods=['POST'])
+def get_token():
+    if 'scope' not in request.form:
+        abort(400)
+    scope = request.form['scope']
+    if 'grant_type' not in request.form:
+        abort(400)
+    grant_type = request.form['grant_type']
+    if 'username' not in request.form:
+        abort(400)
+    username = request.form['username']
+    if 'password' not in request.form:
+        abort(400)
+    password = request.form['password']
+    if 'clientId' not in request.form:
+        abort(400)
+    clientId = request.form['clientId']
+    if 'clientSecret' not in request.form:
+        abort(400)
+    clientSecret = request.form['clientSecret']
+
+    response_auth = requests.get('http://auth:8040/api/v1/get_token', params = {'username': username, 'password': password, 'clientId': clientId, 'clientSecret': clientSecret})
+    if response_auth.status_code == 200:
+        return make_response(response_auth.json(), 200)
+    else:
+        return make_response(jsonify({"error": "access_denied", "error_description": "Unauthorized"}), 401)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True, port=int(port))

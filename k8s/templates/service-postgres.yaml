@@ -10,5 +10,5 @@ spec:
     ports:
       - name: {{ .Values.postgres.name }}-listener
         protocol: TCP
-        port: 5432
+        port: {{ .Values.postgres.port }}
         targetPort: {{ .Values.postgres.name }}

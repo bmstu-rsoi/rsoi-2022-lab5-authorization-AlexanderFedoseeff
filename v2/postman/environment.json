@@ -9,12 +9,12 @@
     },
     {
       "key": "identityProviderUrl",
-      "value": "https://dev-wkeiaqceknsdkl84.us.auth0.com",
+      "value": "51.250.82.141",
       "enabled": true
     },
     {
       "key": "username",
-      "value": "u@rsoi.test",
+      "value": "test@test.test",
       "enabled": true
     },
     {

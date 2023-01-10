@@ -10,5 +10,5 @@ spec:
     ports:
       - name: {{ .Values.reservation.name }}-listener
         protocol: TCP
-        port: 8070
+        port: {{ .Values.reservation.port }}
         targetPort: {{ .Values.reservation.name }}
